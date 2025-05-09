@@ -56,6 +56,13 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          echo "Checking .next directory:"
+          ls -la .next || echo ".next directory not found"
+          echo "Checking public directory:"
+          ls -la public || echo "public directory not found"
+
       - name: Upload Next.js build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -64,7 +71,53 @@ jobs:
           compression-level: 9
           retention-days: 7
 
+      - name: Upload public directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-dir
+          path: public/
+          compression-level: 9
+          retention-days: 7
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+          
+      - name: Download public directory
+        uses: actions/download-artifact@v4
+        with:
+          name: public-dir
+          path: public
+          
+      - name: Verify downloaded artifacts
+        run: |
+          echo "Checking downloaded .next directory:"
+          ls -la .next || echo ".next directory not found or empty"
+          echo "Checking downloaded public directory:"
+          ls -la public || echo "public directory not found or empty"
+          
       - name: Deploy to production
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: npm run deploy || echo "Deployment script not found, please add npm script 'deploy' to your package.json"
   
