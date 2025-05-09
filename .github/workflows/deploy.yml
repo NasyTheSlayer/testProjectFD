@@ -75,8 +75,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-dependencies-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: build-files
           path: build
