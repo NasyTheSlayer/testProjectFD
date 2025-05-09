@@ -17,20 +17,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2.5.2
+        uses: actions/setup-node@v3
         with:
           node-version: "20"
-
-      - name: Restore dependencies cache
-        uses: actions/cache@v1.2.1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-dependencies-
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -48,20 +41,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2.5.2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Restore dependencies cache
-        uses: actions/cache@v1.2.1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-dependencies-
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -69,14 +55,14 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Save dependencies cache
-        uses: actions/cache@v1.2.1
+      - name: Upload Next.js build artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/package-lock.json') }}
+          name: next-build
+          path: .next/
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.2
+      - name: Upload public directory
+        uses: actions/upload-artifact@v3
         with:
-          name: build-files
-          path: build
+          name: public-dir
+          path: public/
