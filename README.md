@@ -52,7 +52,6 @@ Web application for viewing and managing train schedules, with a modern interfac
       <ul>
         <li>Responsive design for different devices</li>
         <li>Animations and transitions</li>
-        <li>Dark/light theme</li>
       </ul>
     </td>
   </tr>
