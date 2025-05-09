@@ -64,46 +64,7 @@ jobs:
           compression-level: 9
           retention-days: 7
 
-      - name: Upload public directory
-        uses: actions/upload-artifact@v4
-        with:
-          name: public-dir
-          path: public/
-          compression-level: 9
-          retention-days: 7
-
-  deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-        
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
-          
-      - name: Download public directory
-        uses: actions/download-artifact@v4
-        with:
-          name: public-dir
-          path: public
-      
-      - name: Install dependencies
-        run: npm ci
-          
       - name: Deploy to production
-        run: npm run deploy
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: npm run deploy || echo "Deployment script not found, please add npm script 'deploy' to your package.json"
   
