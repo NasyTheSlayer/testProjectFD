@@ -13,244 +13,244 @@
 
 </div>
 
-Веб-додаток для перегляду та управління розкладами поїздів, з сучасним інтерфейсом та розширеними можливостями пошуку.
+Web application for viewing and managing train schedules, with a modern interface and advanced search capabilities.
 
 ---
 
-## ✨ Основні функції
+## ✨ Key Features
 
 <table>
   <tr>
     <td width="50%">
-      <h3>🔐 Авторизація</h3>
+      <h3>🔐 Authentication</h3>
       <ul>
-        <li>Захищений вхід та реєстрація користувачів</li>
-        <li>JWT автентифікація</li>
-        <li>Валідація форм з Zod</li>
+        <li>Secure login and user registration</li>
+        <li>JWT authentication</li>
+        <li>Form validation with Zod</li>
       </ul>
     </td>
     <td width="50%">
-      <h3>🔍 Розширений пошук</h3>
+      <h3>🔍 Advanced Search</h3>
       <ul>
-        <li>Фільтрація за маршрутом і датою</li>
-        <li>Сортування за різними параметрами</li>
-        <li>Автозаповнення та підказки</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <h3>📋 Управління розкладами</h3>
-      <ul>
-        <li>Перегляд, додавання, редагування розкладів</li>
-        <li>Оптимістичні оновлення UI</li>
-        <li>Видалення записів з підтвердженням</li>
-      </ul>
-    </td>
-    <td width="50%">
-      <h3>🎨 Сучасний інтерфейс</h3>
-      <ul>
-        <li>Адаптивний дизайн для різних пристроїв</li>
-        <li>Анімації та переходи</li>
-        <li>Темна/світла тема</li>
+        <li>Filtering by route and date</li>
+        <li>Sorting by various parameters</li>
+        <li>Autocomplete and suggestions</li>
       </ul>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <h3>⚙️ Якість коду</h3>
+      <h3>📋 Schedule Management</h3>
       <ul>
-        <li>Строга типізація TypeScript</li>
-        <li>Налаштований ESLint та Prettier</li>
-        <li>Оптимізований Fast Refresh</li>
+        <li>View, add, edit schedules</li>
+        <li>Optimistic UI updates</li>
+        <li>Delete entries with confirmation</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>🎨 Modern Interface</h3>
+      <ul>
+        <li>Responsive design for different devices</li>
+        <li>Animations and transitions</li>
+        <li>Dark/light theme</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>⚙️ Code Quality</h3>
+      <ul>
+        <li>Strict TypeScript typing</li>
+        <li>Configured ESLint and Prettier</li>
+        <li>Optimized Fast Refresh</li>
       </ul>
     </td>
     <td width="50%">
       <h3>🔄 CI/CD</h3>
       <ul>
-        <li>Автоматизоване тестування</li>
-        <li>Перевірка якості коду</li>
-        <li>Автоматичний деплой</li>
+        <li>Automated testing</li>
+        <li>Code quality checks</li>
+        <li>Automatic deployment</li>
       </ul>
     </td>
   </tr>
 </table>
 
-## 🧩 Технології
+## 🧩 Technologies
 
 <details>
 <summary><b>Frontend Stack</b></summary>
 
-- **Next.js** - React фреймворк з App Router
-- **TypeScript** - Типізована мова програмування
-- **Chakra UI** - Компонентна бібліотека з підтримкою тем
-- **React Query** - Управління серверним станом та кешування
-- **Axios** - HTTP клієнт для API запитів
-- **Framer Motion** - Бібліотека для плавних анімацій
-- **React Hook Form** - Управління формами та валідація
-- **Zod** - Типізована валідація схем даних
-- **React Window** - Віртуалізація для ефективного рендерингу списків
+- **Next.js** - React framework with App Router
+- **TypeScript** - Typed programming language
+- **Chakra UI** - Component library with theme support
+- **React Query** - Server state management and caching
+- **Axios** - HTTP client for API requests
+- **Framer Motion** - Library for smooth animations
+- **React Hook Form** - Form management and validation
+- **Zod** - Typed schema validation
+- **React Window** - Virtualization for efficient list rendering
 
 </details>
 
 <details>
-<summary><b>Інструменти розробки</b></summary>
+<summary><b>Development Tools</b></summary>
 
-- **ESLint** - Статичний аналіз коду
-- **Prettier** - Форматування коду
-- **TypeScript** - Строга типізація
-- **GitHub Actions** - CI/CD автоматизація
-- **Husky** - Git hooks для контролю якості коду(не встиг додати)
-- **lint-staged** - Перевірка змін перед комітом(не встиг додати)
+- **ESLint** - Static code analysis
+- **Prettier** - Code formatting
+- **TypeScript** - Strict typing
+- **GitHub Actions** - CI/CD automation
+- **Husky** - Git hooks for code quality control (not implemented yet)
+- **lint-staged** - Pre-commit checks for changes (not implemented yet)
 
 </details>
 
-## 🏗️ Архітектура проекту
+## 🏗️ Project Architecture
 
 ```
 src/
 ├── 📁 app/                    # Next.js App Router
-│   ├── 🔒 auth/               # Сторінки автентифікації
-│   ├── 🔍 search/             # Пошук розкладів
-│   ├── 📄 page.tsx            # Головна сторінка
-│   ├── 📐 layout.tsx          # Кореневий макет
-│   └── 🔌 providers/          # Контекст-провайдери
+│   ├── 🔒 auth/               # Authentication pages
+│   ├── 🔍 search/             # Schedule search
+│   ├── 📄 page.tsx            # Main page
+│   ├── 📐 layout.tsx          # Root layout
+│   └── 🔌 providers/          # Context providers
 │
-├── 📦 components/             # UI компоненти
-│   ├── 🧰 feedback/           # Компоненти відгуку
+├── 📦 components/             # UI components
+│   ├── 🧰 feedback/           # Feedback components
 │   │   ├── LoadingAnimation.tsx
 │   │   └── ErrorDisplay.tsx
-│   ├── 🔍 search/             # Компоненти пошуку
+│   ├── 🔍 search/             # Search components
 │   │   ├── Pagination.tsx
 │   │   ├── SearchBar.tsx
 │   │   └── SearchForm.tsx
 │   │
-│   ├── 🚂 trains/             # Компоненти поїздів
-│   │   ├── BackgroundTrains/  # Анімація фону
+│   ├── 🚂 trains/             # Train components
+│   │   ├── BackgroundTrains/  # Background animation
 │   │   │   └── BackgroundTrains.tsx
 │   │   │
-│   │   ├── TrainCheduleTable/ # Таблиця розкладу (альтернативна)
-│   │   │   ├── components/    # Підкомпоненти таблиці
+│   │   ├── TrainCheduleTable/ # Schedule table (alternative)
+│   │   │   ├── components/    # Table subcomponents
 │   │   │   │   ├── RowRenderer.tsx
 │   │   │   │   ├── TableHeader.tsx
 │   │   │   │   ├── TableRow.tsx
 │   │   │   │   └── SortIcon.tsx
-│   │   │   ├── constants/     # Константи для таблиці
+│   │   │   ├── constants/     # Table constants
 │   │   │   └── TrainScheduleTable.tsx
 │   │   │
-│   │   ├── TrainSheduleTable/ # Основна таблиця розкладу
-│   │   │   ├── components/    # Підкомпоненти таблиці
-│   │   │   ├── constants/     # Константи та конфігурація
-│   │   │   └── interfaces/    # Типи компонентів
+│   │   ├── TrainSheduleTable/ # Main schedule table
+│   │   │   ├── components/    # Table subcomponents
+│   │   │   ├── constants/     # Constants and configuration
+│   │   │   └── interfaces/    # Component types
 │   │   │
-│   │   ├── TrainSheduleModal/ # Модальне вікно поїзда
-│   │   │   ├── components/    # Підкомпоненти модального вікна
-│   │   │   ├── constants/     # Константи модального вікна
+│   │   ├── TrainSheduleModal/ # Train modal window
+│   │   │   ├── components/    # Modal subcomponents
+│   │   │   ├── constants/     # Modal constants
 │   │   │   └── TrainScheduleModal.tsx
 │   │   │
-│   │   ├── TrainTable/        # Компонент таблиці
+│   │   ├── TrainTable/        # Table component
 │   │   │
-│   │   └── TrainTrack/        # Компонент треку поїзда
+│   │   └── TrainTrack/        # Train track component
 │   │       └── TrainTrack.tsx
 │   │
-│   └── NavBar.tsx             # Компонент навігації
+│   └── NavBar.tsx             # Navigation component
 │
-├── 🌐 contexts/               # React контексти
-│   └── auth/                  # Контексти авторизації
-│       ├── AuthContext.ts     # Контекст авторизації
-│       ├── AuthProvider.tsx   # Провайдер авторизації
-│       └── useAuth.ts         # Хук авторизації
+├── 🌐 contexts/               # React contexts
+│   └── auth/                  # Authentication contexts
+│       ├── AuthContext.ts     # Auth context
+│       ├── AuthProvider.tsx   # Auth provider
+│       └── useAuth.ts         # Auth hook
 │
-├── 🪝 hooks/                  # Кастомні React хуки
-│   └── useTrainSearch.ts      # Логіка пошуку і сортування
+├── 🪝 hooks/                  # Custom React hooks
+│   └── useTrainSearch.ts      # Search and sorting logic
 │
-├── 🛠️ libs/                   # Утиліти та хелпери
-│   ├── api.ts                 # API функції
-│   ├── axios.ts               # Конфігурація Axios
-│   └── validation/            # Схеми валідації
-│       ├── authSchema.ts      # Схема для авторизації
-│       └── trainSheduleSchema.ts # Схема для розкладу
+├── 🛠️ libs/                   # Utilities and helpers
+│   ├── api.ts                 # API functions
+│   ├── axios.ts               # Axios configuration
+│   └── validation/            # Validation schemas
+│       ├── authSchema.ts      # Auth schema
+│       └── trainSheduleSchema.ts # Schedule schema
 │
-├── 🎭 styles/                 # Стилі та теми
-│   ├── auth/                  # Стилі для авторизації
+├── 🎭 styles/                 # Styles and themes
+│   ├── auth/                  # Authentication styles
 │   │   └── inputStyles.ts
-│   └── tables/                # Стилі для таблиць
+│   └── tables/                # Table styles
 │       └── buttonStyles.ts
 │
-└── 📋 types/                  # TypeScript типи
-    ├── train.ts               # Інтерфейси даних поїздів
-    └── api.ts                 # Типи API відповідей
+└── 📋 types/                  # TypeScript types
+    ├── train.ts               # Train data interfaces
+    └── api.ts                 # API response types
 ```
 
-## 🚀 Особливості реалізації
+## 🚀 Implementation Features
 
-### Управління формами та валідація
+### Form Management and Validation
 
-Форми використовують комбінацію `React Hook Form` та `Zod` для валідації:
+Forms use a combination of `React Hook Form` and `Zod` for validation:
 
 ```typescript
-// Приклад схеми валідації з Zod
+// Example validation schema with Zod
 const trainScheduleSchema = z.object({
-  trainNumber: z.string().min(3, "Номер поїзда повинен мати мінімум 3 символи"),
+  trainNumber: z.string().min(3, "Train number must have at least 3 characters"),
   departure: z.date(),
   arrival: z.date(),
-  origin: z.string().min(2, "Введіть коректну станцію відправлення"),
-  destination: z.string().min(2, "Введіть коректну станцію прибуття"),
-  // Додаткові поля...
+  origin: z.string().min(2, "Enter a valid departure station"),
+  destination: z.string().min(2, "Enter a valid arrival station"),
+  // Additional fields...
 }).refine(data => data.arrival > data.departure, {
-  message: "Час прибуття має бути пізніше часу відправлення",
+  message: "Arrival time must be later than departure time",
   path: ["arrival"]
 });
 ```
 
-### Оптимізація продуктивності
+### Performance Optimization
 
-- Віртуалізація списків для ефективного рендерингу великої кількості даних
-- Кешування та оптимістичні оновлення з React Query
-- Ефективне управління станом з використанням хуків та контекстів
-- Розділення коду і ліниве завантаження для швидшого старту
+- List virtualization for efficient rendering of large data sets
+- Caching and optimistic updates with React Query
+- Efficient state management using hooks and contexts
+- Code splitting and lazy loading for faster startup
 
-### Якість коду та інструменти розробки
+### Code Quality and Development Tools
 
-- **ESLint** з розширеними правилами для TypeScript та React
-- **Prettier** для уніфікованого форматування коду
-- **CI/CD pipeline** на базі GitHub Actions:
-  - Автоматична збірка та тестування
-  - Перевірка коду за допомогою лінтерів
-  - Автоматичний деплой на хостинг
+- **ESLint** with extended rules for TypeScript and React
+- **Prettier** for unified code formatting
+- **CI/CD pipeline** based on GitHub Actions:
+  - Automatic build and testing
+  - Code checking with linters
+  - Automatic deployment to hosting
 
-### Адаптивний дизайн
+### Responsive Design
 
-- Частково адаптивний інтерфейс з використанням Chakra UI
-- Частково додана мобільна навігація та оптимізовані під дотик елементи
-- Оптимізовані зображення та анімації
+- Partially responsive interface using Chakra UI
+- Partially added mobile navigation and touch-optimized elements
+- Optimized images and animations
 
-### Анімації та переходи
+### Animations and Transitions
 
-- Плавні переходи між сторінками за допомогою Framer Motion
-- Мікроанімації для покращення UX
-- Анімовані фони та елементи інтерфейсу
+- Smooth page transitions with Framer Motion
+- Micro-animations to improve UX
+- Animated backgrounds and interface elements
 
-## 🔧 Запуск проекту
+## 🔧 Running the Project
 
-1. Клонувати репозиторій:
+1. Clone the repository:
    ```bash
    git clone https://github.com/username/train-schedule-app.git
    cd train-schedule-app
    ```
 
-2. Встановити залежності:
+2. Install dependencies:
    ```bash
    npm install
-   # або
+   # or
    yarn install
    ```
 
-3. Запустити локальний сервер:
+3. Start the local server:
    ```bash
    npm run dev
-   # або
+   # or
    yarn dev
    ```
 
-4. Відкрити [http://localhost:3000](http://localhost:3000) у браузері
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
