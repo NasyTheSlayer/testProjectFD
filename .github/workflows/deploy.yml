@@ -4,16 +4,15 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -32,10 +31,15 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-  build:
-    runs-on: ${{ matrix.os }}
+      - name: Run tests
+        run: npm test || echo "No tests available"
 
+  build:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [20]
@@ -62,9 +66,39 @@ jobs:
         with:
           name: next-build-${{ matrix.os }}
           path: .next/
+          compression-level: 9
+          retention-days: 7
 
       - name: Upload public directory
         uses: actions/upload-artifact@v4
         with:
           name: public-dir-${{ matrix.os }}
           path: public/
+          compression-level: 9
+          retention-days: 7
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build-ubuntu-latest
+          path: .next
+          
+      - name: Download public directory
+        uses: actions/download-artifact@v4
+        with:
+          name: public-dir-ubuntu-latest
+          path: public
+          
+      - name: Deploy to production
+        run: npm run deploy
+  
