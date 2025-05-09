@@ -60,11 +60,11 @@ jobs:
       - name: Upload Next.js build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: next-build
+          name: next-build-${{ matrix.os }}
           path: .next/
 
       - name: Upload public directory
         uses: actions/upload-artifact@v4
         with:
-          name: public-dir
+          name: public-dir-${{ matrix.os }}
           path: public/
