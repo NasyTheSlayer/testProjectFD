@@ -1,6 +1,6 @@
-import { CSSProperties } from 'react';
-import { Train } from '@/types/train';
-import TableRow from './TableRow';
+import { CSSProperties } from "react";
+import { Train } from "@/types/train";
+import TableRow from "./TableRow";
 
 interface RowRendererProps {
   index: number;
@@ -15,9 +15,9 @@ interface RowRendererProps {
 
 const RowRenderer = ({ index, style, data }: RowRendererProps) => {
   const { trains, isAuthenticated, onEdit, onDelete } = data;
-  
+
   if (index >= trains.length) return null;
-  
+
   return (
     <TableRow
       index={index}
@@ -30,4 +30,4 @@ const RowRenderer = ({ index, style, data }: RowRendererProps) => {
   );
 };
 
-export default RowRenderer; 
+export default RowRenderer;

@@ -1,23 +1,23 @@
-import TrainScheduleTable from '../TrainSheduleTable/TrainScheduleTable';
-import { Train } from '@/types/train';
+import TrainScheduleTable from "../TrainSheduleTable/TrainScheduleTable";
+import { Train } from "@/types/train";
 
 interface TrainTableProps {
   trains: Train[];
   sortBy: string | null;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
   onSort: (field: string) => void;
   onEdit: (schedule: Train) => void;
   onDelete: (id: string) => void;
 }
 
-export default function TrainTable({
+const TrainTable = ({
   trains,
   sortBy,
   sortOrder,
   onSort,
   onEdit,
-  onDelete
-}: TrainTableProps) {
+  onDelete,
+}: TrainTableProps) => {
   return (
     <TrainScheduleTable
       trains={trains}
@@ -29,4 +29,6 @@ export default function TrainTable({
       onDelete={onDelete}
     />
   );
-} 
+};
+
+export default TrainTable;

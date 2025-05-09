@@ -1,21 +1,31 @@
-import { Box, Flex, Button } from '@chakra-ui/react';
-import { Train } from '@/types/train';
-import { RowProps } from '../inerfaces/RowProps';
-import { deleteButtonStyle, gradientButtonStyle } from '@/styles/tables/buttonStyles';
-import { columns } from '../constants/constants';
+import { Box, Flex, Button } from "@chakra-ui/react";
+import { Train } from "@/types/train";
+import { RowProps } from "../inerfaces/RowProps";
+import {
+  deleteButtonStyle,
+  gradientButtonStyle,
+} from "@/styles/tables/buttonStyles";
+import { columns } from "../constants/constants";
 
 interface TableRowProps extends RowProps {
   trains: Train[];
 }
 
-const TableRow = ({ index, style, trains, onEdit, onDelete, isAuthenticated }: TableRowProps) => {
+const TableRow = ({
+  index,
+  style,
+  trains,
+  onEdit,
+  onDelete,
+  isAuthenticated,
+}: TableRowProps) => {
   if (index >= trains.length) return null;
   const train = trains[index];
 
   return (
     <Flex
       key={train.id}
-      _hover={{ bg: 'gray.50' }}
+      _hover={{ bg: "gray.50" }}
       borderBottom="1px"
       borderColor="gray.200"
       style={style}
@@ -53,4 +63,4 @@ const TableRow = ({ index, style, trains, onEdit, onDelete, isAuthenticated }: T
   );
 };
 
-export default TableRow; 
+export default TableRow;

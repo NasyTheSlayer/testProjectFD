@@ -1,16 +1,21 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
-import { columns } from '../constants/constants';
-import SortIcon from './SortIcon';
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import { columns } from "../constants/constants";
+import SortIcon from "./SortIcon";
 
 interface TableHeaderProps {
   sortBy: string;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
   onSort: (field: string) => void;
   isAuthenticated: boolean;
 }
 
-const TableHeader = ({ sortBy, sortOrder, onSort, isAuthenticated }: TableHeaderProps) => {
+const TableHeader = ({
+  sortBy,
+  sortOrder,
+  onSort,
+  isAuthenticated,
+}: TableHeaderProps) => {
   return (
     <Box
       width="100%"
@@ -26,14 +31,16 @@ const TableHeader = ({ sortBy, sortOrder, onSort, isAuthenticated }: TableHeader
           p={4}
           textAlign="left"
           flexBasis={flexBasis}
-          cursor={sortable ? 'pointer' : 'default'}
+          cursor={sortable ? "pointer" : "default"}
           onClick={sortable ? () => onSort(key) : undefined}
         >
           {label}
-          {sortable && <SortIcon columnKey={key} sortBy={sortBy} sortOrder={sortOrder} />}
+          {sortable && (
+            <SortIcon columnKey={key} sortBy={sortBy} sortOrder={sortOrder} />
+          )}
         </Box>
       ))}
-      
+
       {isAuthenticated && (
         <Box p={4} textAlign="left" flexBasis="15%">
           Actions
@@ -43,4 +50,4 @@ const TableHeader = ({ sortBy, sortOrder, onSort, isAuthenticated }: TableHeader
   );
 };
 
-export default TableHeader; 
+export default TableHeader;

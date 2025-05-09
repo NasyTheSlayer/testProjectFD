@@ -20,4 +20,4 @@ export type TrainsScheduleData = {
     items: Train[];
     meta: Meta;
   };
-}
+};

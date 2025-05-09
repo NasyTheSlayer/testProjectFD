@@ -1,23 +1,18 @@
-'use client';
+"use client";
 
-import {Box, Text, Center} from '@chakra-ui/react';
-import {motion} from 'framer-motion';
+import { Box, Text, Center } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 const LoadingAnimation = () => (
   <Center minH="50vh" flexDirection="column">
-    <Box
-      position="relative"
-      width="200px"
-      height="80px"
-      mb={8}
-    >
+    <Box position="relative" width="200px" height="80px" mb={8}>
       <motion.div
-        initial={{x: -100}}
-        animate={{x: 250}}
+        initial={{ x: -100 }}
+        animate={{ x: 250 }}
         transition={{
           repeat: Infinity,
           duration: 3,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
         style={{
           position: "absolute",
@@ -27,7 +22,7 @@ const LoadingAnimation = () => (
           height: 30,
           background: "linear-gradient(90deg, #3182ce 0%, #4557b8 100%)",
           borderRadius: 8,
-          zIndex: 2
+          zIndex: 2,
         }}
       />
       <Box
@@ -57,8 +52,12 @@ const LoadingAnimation = () => (
         borderRadius="full"
       />
     </Box>
-    <Text fontSize="xl" fontWeight="medium" color="blue.600">Loading train schedules...</Text>
-    <Text mt={2} color="gray.500">Please wait while we gather the latest information</Text>
+    <Text fontSize="xl" fontWeight="medium" color="blue.600">
+      Loading train schedules...
+    </Text>
+    <Text mt={2} color="gray.500">
+      Please wait while we gather the latest information
+    </Text>
   </Center>
 );
 

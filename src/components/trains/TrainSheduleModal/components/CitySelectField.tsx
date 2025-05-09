@@ -1,19 +1,16 @@
-import { 
-  Box, 
-  Text 
-} from '@chakra-ui/react';
-import { Select } from '@chakra-ui/select';
+import { Box, Text } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/select";
 import {
-  FormControl, 
-  FormLabel, 
-  FormErrorMessage
-} from '@chakra-ui/form-control';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { TrainScheduleFormData } from '@/libs/validation/trainSheduleSchema';
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/form-control";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { TrainScheduleFormData } from "@/libs/validation/trainSheduleSchema";
 
 interface CitySelectFieldProps {
-  name: 'departure' | 'destination';
+  name: "departure" | "destination";
   label: string;
   register: UseFormRegister<TrainScheduleFormData>;
   errors: FieldErrors<TrainScheduleFormData>;
@@ -21,17 +18,19 @@ interface CitySelectFieldProps {
   cities: string[];
 }
 
-export default function CitySelectField({
+const CitySelectField = ({
   name,
   label,
   register,
   errors,
   value,
-  cities
-}: CitySelectFieldProps) {
+  cities,
+}: CitySelectFieldProps) => {
   return (
     <FormControl isInvalid={!!errors[name]} flex="1">
-      <FormLabel fontWeight="medium" textAlign="center">{label}</FormLabel>
+      <FormLabel fontWeight="medium" textAlign="center">
+        {label}
+      </FormLabel>
       <Box
         borderRadius="md"
         overflow="hidden"
@@ -46,8 +45,15 @@ export default function CitySelectField({
         cursor="pointer"
         position="relative"
       >
-        <Box position="absolute" left="10px" top="50%" transform="translateY(-50%)" zIndex={2} color="gray.500">
-          <FaMapMarkerAlt/>
+        <Box
+          position="absolute"
+          left="10px"
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={2}
+          color="gray.500"
+        >
+          <FaMapMarkerAlt />
         </Box>
         <Box
           position="absolute"
@@ -61,11 +67,13 @@ export default function CitySelectField({
           justifyContent="center"
           pointerEvents="none"
         >
-          <Text color={value ? "black" : "gray.500"}>{value || "Select city"}</Text>
+          <Text color={value ? "black" : "gray.500"}>
+            {value || "Select city"}
+          </Text>
         </Box>
         <Select
-          style={{width: "100%", height: "100%", padding: "50px"}}
-          {...register(name, {required: `${label} location is required`})}
+          style={{ width: "100%", height: "100%", padding: "50px" }}
+          {...register(name, { required: `${label} location is required` })}
           placeholder="Select city"
           position="absolute"
           top="0"
@@ -75,11 +83,17 @@ export default function CitySelectField({
           zIndex={3}
         >
           {cities.map((city, index) => (
-            <option key={`${name}-${city}-${index}`} value={city}>{city}</option>
+            <option key={`${name}-${city}-${index}`} value={city}>
+              {city}
+            </option>
           ))}
         </Select>
       </Box>
-      {errors[name] && <FormErrorMessage>{errors[name]?.message?.toString()}</FormErrorMessage>}
+      {errors[name] && (
+        <FormErrorMessage>{errors[name]?.message?.toString()}</FormErrorMessage>
+      )}
     </FormControl>
   );
-} 
+};
+
+export default CitySelectField;

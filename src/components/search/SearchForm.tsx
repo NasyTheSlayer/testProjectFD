@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import {Box, Button, Input} from '@chakra-ui/react';
-import {FormControl, FormLabel} from '@chakra-ui/form-control';
-import {Select} from '@chakra-ui/select';
-import {useForm} from 'react-hook-form';
-import {useRouter} from 'next/navigation';
-import {motion} from 'framer-motion';
+import { Box, Button, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Select } from "@chakra-ui/select";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
 
@@ -16,12 +16,14 @@ interface SearchFormData {
   passengers: number;
 }
 
-export default function SearchForm() {
-  const {register, handleSubmit} = useForm<SearchFormData>();
+const SearchForm = () => {
+  const { register, handleSubmit } = useForm<SearchFormData>();
   const router = useRouter();
 
   const onSubmit = (data: SearchFormData) => {
-    router.push(`/search?departure=${data.departureCity}&destination=${data.destinationCity}&date=${data.date}&passengers=${data.passengers}`);
+    router.push(
+      `/search?departure=${data.departureCity}&destination=${data.destinationCity}&date=${data.date}&passengers=${data.passengers}`,
+    );
   };
 
   return (
@@ -30,42 +32,42 @@ export default function SearchForm() {
       onSubmit={handleSubmit(onSubmit)}
       p={6}
       bg="rgba(255, 255, 255, 0.2)"
-      style={{backdropFilter: 'blur(10px)'}}
+      style={{ backdropFilter: "blur(10px)" }}
       borderRadius="lg"
       boxShadow="md"
-      initial={{y: -50, opacity: 0}}
-      animate={{y: 0, opacity: 1}}
-      transition={{duration: 0.5}}
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
       maxW="600px"
       mx="auto"
     >
       <FormControl>
         <FormLabel color="white">Місто відправлення</FormLabel>
         <Input
-          {...register('departureCity')}
+          {...register("departureCity")}
           placeholder="Київ"
           size="md"
           bg="whiteAlpha.200"
           color="white"
-          _placeholder={{color: 'whiteAlpha.700'}}
+          _placeholder={{ color: "whiteAlpha.700" }}
         />
       </FormControl>
       <FormControl mt={4}>
         <FormLabel color="white">Місто призначення</FormLabel>
         <Input
-          {...register('destinationCity')}
+          {...register("destinationCity")}
           placeholder="Львів"
           size="md"
           bg="whiteAlpha.200"
           color="white"
-          _placeholder={{color: 'whiteAlpha.700'}}
+          _placeholder={{ color: "whiteAlpha.700" }}
         />
       </FormControl>
       <FormControl mt={4}>
         <FormLabel color="white">Дата</FormLabel>
         <Input
           type="date"
-          {...register('date')}
+          {...register("date")}
           size="md"
           bg="whiteAlpha.200"
           color="white"
@@ -74,7 +76,7 @@ export default function SearchForm() {
       <FormControl mt={4}>
         <FormLabel color="white">Кількість пасажирів</FormLabel>
         <Select
-          {...register('passengers')}
+          {...register("passengers")}
           size="md"
           bg="whiteAlpha.200"
           color="white"
@@ -92,11 +94,13 @@ export default function SearchForm() {
         colorScheme="orange"
         width="full"
         size="lg"
-        _hover={{transform: 'scale(1.05)'}}
+        _hover={{ transform: "scale(1.05)" }}
         transition="transform 0.2s"
       >
         Пошук
       </Button>
     </MotionBox>
   );
-}
+};
+
+export default SearchForm;

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import {Box} from '@chakra-ui/react';
-import {FixedSizeList as List} from 'react-window';
-import {useRef} from 'react';
-import {Train} from '@/types/train';
-import {useAuth} from '@contexts/AuthContext';
-import TableHeader from './components/TableHeader';
-import RowRenderer from './components/RowRenderer';
+import { Box } from "@chakra-ui/react";
+import { FixedSizeList as List } from "react-window";
+import { useRef } from "react";
+import { Train } from "@/types/train";
+import { useAuth } from "@/contexts/auth/useAuth";
+import TableHeader from "./components/TableHeader";
+import RowRenderer from "./components/RowRenderer";
 
 interface TrainScheduleTableProps {
   trains: Train[];
   sortBy: string;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
   containerHeight: number;
   onSort: (field: string) => void;
   onEdit: (train: Train) => void;
@@ -25,16 +25,16 @@ const TrainScheduleTable = ({
   containerHeight,
   onSort,
   onEdit,
-  onDelete
+  onDelete,
 }: TrainScheduleTableProps) => {
   const tableContainerRef = useRef(null);
-  const {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const rowData = {
     trains,
     isAuthenticated,
     onEdit,
-    onDelete
+    onDelete,
   };
 
   return (
@@ -48,18 +48,14 @@ const TrainScheduleTable = ({
       flex="1"
       maxH="600px"
     >
-      <TableHeader 
-        sortBy={sortBy} 
-        sortOrder={sortOrder} 
-        onSort={onSort} 
-        isAuthenticated={isAuthenticated} 
+      <TableHeader
+        sortBy={sortBy}
+        sortOrder={sortOrder}
+        onSort={onSort}
+        isAuthenticated={isAuthenticated}
       />
 
-      <Box
-        flex="1"
-        overflow="auto"
-        ref={tableContainerRef}
-      >
+      <Box flex="1" overflow="auto" ref={tableContainerRef}>
         <List
           height={containerHeight}
           itemCount={trains.length}

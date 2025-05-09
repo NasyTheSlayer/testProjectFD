@@ -1,14 +1,11 @@
-import { 
-  Input,
-  Box,
-} from '@chakra-ui/react';
+import { Input, Box } from "@chakra-ui/react";
 import {
-  FormControl, 
-  FormLabel, 
-  FormErrorMessage
-} from '@chakra-ui/form-control';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { TrainScheduleFormData } from '@/libs/validation/trainSheduleSchema';
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/form-control";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { TrainScheduleFormData } from "@/libs/validation/trainSheduleSchema";
 
 interface FormInputFieldProps {
   name: keyof TrainScheduleFormData;
@@ -17,19 +14,23 @@ interface FormInputFieldProps {
   errors: FieldErrors<TrainScheduleFormData>;
   placeholder?: string;
   required?: boolean;
+  maxLength?: number;
 }
 
-export default function FormInputField({
+const FormInputField = ({
   name,
   label,
   register,
   errors,
   placeholder,
-  required
-}: FormInputFieldProps) {
+  required,
+  maxLength,
+}: FormInputFieldProps) => {
   return (
     <FormControl isInvalid={!!errors[name]} flex="1">
-      <FormLabel fontWeight="medium" textAlign="center">{label}</FormLabel>
+      <FormLabel fontWeight="medium" textAlign="center">
+        {label}
+      </FormLabel>
       <Box
         borderRadius="md"
         overflow="hidden"
@@ -45,20 +46,31 @@ export default function FormInputField({
         position="relative"
       >
         <Input
-          {...register(name, {required: required && `${label} is required`})}
+          {...register(name, {
+            required: required && `${label} is required`,
+            maxLength: maxLength && {
+              value: maxLength,
+              message: `${label} must not exceed ${maxLength} characters`,
+            },
+          })}
           placeholder={placeholder}
           textAlign="center"
           size="lg"
           bg="white"
-          _hover={{bg: "gray.50"}}
-          _focus={{bg: "white", borderColor: 'blue.400'}}
+          _hover={{ bg: "gray.50" }}
+          _focus={{ bg: "white", borderColor: "blue.400" }}
           borderRadius="none"
           border="none"
           height="100%"
           width="100%"
+          maxLength={maxLength}
         />
       </Box>
-      {errors[name] && <FormErrorMessage>{errors[name]?.message?.toString()}</FormErrorMessage>}
+      {errors[name] && (
+        <FormErrorMessage>{errors[name]?.message?.toString()}</FormErrorMessage>
+      )}
     </FormControl>
   );
-} 
+};
+
+export default FormInputField;

@@ -1,33 +1,29 @@
-'use client';
+"use client";
 
-import {
-  Box, 
-  useDisclosure, 
-} from '@chakra-ui/react';
-import {useState, useEffect} from 'react';
-import {motion} from 'framer-motion';
-import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
-import {fetchTrains} from '@/libs/api';
-import {useAuth} from '@/contexts/AuthContext';
-import TrainScheduleModal from '@/components/trains/TrainSheduleModal/TrainScheduleModal';
-import api from '@/libs/axios';
-import {useToast} from '@chakra-ui/toast';
-import {useTrainSearch} from '@/hooks/useTrainSearch';
-import ErrorDisplay from '@/components/feedback/ErrorDisplay';
-import {Train, TrainsScheduleData} from "@/types/train";
-import LoadingAnimation from '@/components/feedback/LoadingAnimation';
-import SearchBar from '@/components/search/SearchBar';
-import TrainTable from '@/components/trains/TrainTable/TrainTable';
-import Pagination from '@/components/search/Pagination';
+import { Box, useDisclosure } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchTrains } from "@/libs/api";
+import { useAuth } from "@/contexts/auth/useAuth";
+import TrainScheduleModal from "@/components/trains/TrainSheduleModal/TrainScheduleModal";
+import api from "@/libs/axios";
+import { useToast } from "@chakra-ui/toast";
+import { useTrainSearch } from "@/hooks/useTrainSearch";
+import ErrorDisplay from "@/components/feedback/ErrorDisplay";
+import { Train, TrainsScheduleData } from "@/types/train";
+import LoadingAnimation from "@/components/feedback/LoadingAnimation";
+import SearchBar from "@/components/search/SearchBar";
+import TrainTable from "@/components/trains/TrainTable/TrainTable";
+import Pagination from "@/components/search/Pagination";
+import { AxiosError } from "axios";
+import { ApiResponse } from "@/types/api";
 
-const MotionBox = motion(Box);
-
-export default function SearchPage() {
+const SearchPage = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [windowHeight, setWindowHeight] = useState(0);
   const [page, setPage] = useState(1);
-  const {open, onOpen, onClose} = useDisclosure();
-  const {isAuthenticated} = useAuth();
+  const { open, onOpen, onClose } = useDisclosure();
+  const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -38,12 +34,12 @@ export default function SearchPage() {
       setWindowHeight(window.innerHeight);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const {data, isLoading, error} = useQuery<TrainsScheduleData>({
-    queryKey: ['trains', page],
+  const { data, isLoading, error } = useQuery<TrainsScheduleData>({
+    queryKey: ["trains", page],
     queryFn: () => fetchTrains(page),
   });
 
@@ -54,26 +50,27 @@ export default function SearchPage() {
     sortOrder,
     handleSort,
     resetSort,
-    sortedTrains
-  } = useTrainSearch({data: data?.data.items || []});
+    sortedTrains,
+  } = useTrainSearch({ data: data?.data.items || [] });
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => api.delete(`/trains/${id}`),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({queryKey: ['trains']});
+      await queryClient.invalidateQueries({ queryKey: ["trains"] });
       toast({
-        title: 'Success',
-        description: 'Train schedule deleted successfully',
-        status: 'success',
+        title: "Success",
+        description: "Train schedule deleted successfully",
+        status: "success",
         duration: 3000,
         isClosable: true,
       });
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<ApiResponse>) => {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to delete train schedule',
-        status: 'error',
+        title: "Error",
+        description:
+          error.response?.data?.message || "Failed to delete train schedule",
+        status: "error",
         duration: 3000,
         isClosable: true,
       });
@@ -106,7 +103,7 @@ export default function SearchPage() {
     }
   };
 
-  if (error) return <ErrorDisplay/>;
+  if (error) return <ErrorDisplay />;
 
   return (
     <Box
@@ -118,7 +115,14 @@ export default function SearchPage() {
       display="flex"
       flexDirection="column"
     >
-      <Box maxW="1200px" mx="auto" width="100%" flex="1" display="flex" flexDirection="column">
+      <Box
+        maxW="1200px"
+        mx="auto"
+        width="100%"
+        flex="1"
+        display="flex"
+        flexDirection="column"
+      >
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -141,12 +145,12 @@ export default function SearchPage() {
               onDelete={handleDelete}
             />
 
-            {data?.data.meta && (
+            {data?.data.meta && data.data.meta.pages > 0 && (
               <Pagination
-                page={page} 
-                totalPages={data.data.meta.pages} 
-                onNextPage={handleNextPage} 
-                onPrevPage={handlePrevPage} 
+                page={page}
+                totalPages={data.data.meta.pages}
+                onNextPage={handleNextPage}
+                onPrevPage={handlePrevPage}
               />
             )}
           </>
@@ -154,13 +158,17 @@ export default function SearchPage() {
       </Box>
 
       <TrainScheduleModal
-        key={selectedSchedule ? `edit-${selectedSchedule.id}` : 'add-new'}
+        key={selectedSchedule ? `edit-${selectedSchedule.id}` : "add-new"}
         isOpen={open}
         onCloseAction={onClose}
-        mode={selectedSchedule ? 'edit' : 'add'}
+        mode={selectedSchedule ? "edit" : "add"}
         scheduleData={selectedSchedule}
-        onSuccessAction={async () => await queryClient.invalidateQueries({queryKey: ['trains']})}
+        onSuccessAction={async () =>
+          await queryClient.invalidateQueries({ queryKey: ["trains"] })
+        }
       />
     </Box>
   );
-}
+};
+
+export default SearchPage;

@@ -1,11 +1,11 @@
-import { Box, Text, Button } from '@chakra-ui/react';
+import { Box, Text, Button } from "@chakra-ui/react";
 
 interface ModalHeaderProps {
   title: string;
   onClose: () => void;
 }
 
-export default function ModalHeader({ title, onClose }: ModalHeaderProps) {
+const ModalHeader = ({ title, onClose }: ModalHeaderProps) => {
   return (
     <Box
       fontSize="2xl"
@@ -32,7 +32,7 @@ export default function ModalHeader({ title, onClose }: ModalHeaderProps) {
         alignItems="center"
         justifyContent="center"
         color="gray.500"
-        _hover={{color: "gray.700"}}
+        _hover={{ color: "gray.700" }}
         onClick={onClose}
         w="40px"
         h="40px"
@@ -43,4 +43,6 @@ export default function ModalHeader({ title, onClose }: ModalHeaderProps) {
       </Button>
     </Box>
   );
-} 
+};
+
+export default ModalHeader;

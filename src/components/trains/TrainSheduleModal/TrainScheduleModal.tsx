@@ -1,65 +1,80 @@
-'use client';
+"use client";
 
+import { Input, Box, Flex, Portal } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { useToast } from "@chakra-ui/toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import api from "@/libs/axios";
+import ModalHeader from "./components/ModalHeader";
+import FormInputField from "./components/FormInputField";
+import CitySelectField from "./components/CitySelectField";
+import DateTimeField from "./components/DateTimeField";
+import ModalFooter from "./components/ModalFooter";
 import {
-  Input,
-  Box,
-  Flex,
-  Portal,
-} from '@chakra-ui/react';
+  TrainScheduleFormData,
+  trainScheduleSchema,
+} from "@/libs/validation/trainSheduleSchema";
 import {
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/form-control';
-import {useToast} from '@chakra-ui/toast';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import api from '@/libs/axios';
-import ModalHeader from './components/ModalHeader';
-import FormInputField from './components/FormInputField';
-import CitySelectField from './components/CitySelectField';
-import DateTimeField from './components/DateTimeField';
-import ModalFooter from './components/ModalFooter';
-import { TrainScheduleFormData, trainScheduleSchema } from '@/libs/validation/trainSheduleSchema';
-import { CARRIER, initialValues, ukrainianCities } from '@/components/trains/TrainSheduleModal/constants/constants';
+  CARRIER,
+  initialValues,
+  ukrainianCities,
+} from "@/components/trains/TrainSheduleModal/constants/constants";
+import { AxiosError } from "axios";
+import { ApiResponse } from "@/types/api";
+import { Train } from "@/types/train";
 
 interface TrainScheduleModalProps {
   isOpen: boolean;
   onCloseAction: () => void;
-  mode: 'add' | 'edit';
-  scheduleData?: any;
+  mode: "add" | "edit";
+  scheduleData?: Train;
   onSuccessAction: () => void;
 }
 
-const formatDateForInput = (dateString?: string) => 
-  dateString ? new Date(dateString).toISOString().slice(0, 16) : '';
+const formatDateForInput = (dateString?: string) =>
+  dateString ? new Date(dateString).toISOString().slice(0, 16) : "";
 
-export default function TrainScheduleModal({
+const TrainScheduleModal = ({
   isOpen,
   onCloseAction,
   mode,
   scheduleData,
-  onSuccessAction
-}: TrainScheduleModalProps) {
-  const editValues = mode === 'edit' ? {
-    departure: scheduleData?.departure || '',
-    destination: scheduleData?.destination || '',
-    departureTime: formatDateForInput(scheduleData?.departureTime),
-    arrivalTime: formatDateForInput(scheduleData?.arrivalTime),
-    number: scheduleData?.number || '',
-    carrier: CARRIER,
-  } : initialValues;
-  
-  const {register, handleSubmit, formState: {errors}, watch, reset} = useForm<TrainScheduleFormData>({
+  onSuccessAction,
+}: TrainScheduleModalProps) => {
+  const editValues =
+    mode === "edit"
+      ? {
+          departure: scheduleData?.departure || "",
+          destination: scheduleData?.destination || "",
+          departureTime: formatDateForInput(scheduleData?.departureTime),
+          arrivalTime: formatDateForInput(scheduleData?.arrivalTime),
+          number: scheduleData?.number || "",
+          carrier: CARRIER,
+        }
+      : initialValues;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm<TrainScheduleFormData>({
     resolver: zodResolver(trainScheduleSchema),
-    defaultValues: editValues
+    defaultValues: editValues,
   });
-  
+
   const toast = useToast();
 
-  const departureValue = watch('departure');
-  const destinationValue = watch('destination');
+  const departureValue = watch("departure");
+  const destinationValue = watch("destination");
 
-  const showToast = (title: string, description: string, status: 'success' | 'error') => {
+  const showToast = (
+    title: string,
+    description: string,
+    status: "success" | "error",
+  ) => {
     toast({
       title,
       description,
@@ -71,18 +86,23 @@ export default function TrainScheduleModal({
 
   const onSubmit = async (data: TrainScheduleFormData) => {
     try {
-      if (mode === 'add') {
-        await api.post('/trains', data);
-        showToast('Success', 'Train schedule added successfully', 'success');
+      if (mode === "add") {
+        await api.post("/trains", data);
+        showToast("Success", "Train schedule added successfully", "success");
         reset(initialValues);
       } else {
         await api.put(`/trains/${scheduleData.id}`, data);
-        showToast('Success', 'Train schedule updated successfully', 'success');
+        showToast("Success", "Train schedule updated successfully", "success");
       }
       onSuccessAction();
       onCloseAction();
-    } catch (error) {
-      showToast('Error', error.response?.data?.message || 'Something went wrong', 'error');
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      showToast(
+        "Error",
+        axiosError.response?.data?.message || "Something went wrong",
+        "error",
+      );
     }
   };
 
@@ -137,12 +157,17 @@ export default function TrainScheduleModal({
             boxShadow="none"
           />
 
-          <ModalHeader title={mode === 'add' ? 'Add New Train Schedule' : 'Edit Train Schedule'} onClose={onCloseAction} />
+          <ModalHeader
+            title={
+              mode === "add" ? "Add New Train Schedule" : "Edit Train Schedule"
+            }
+            onClose={onCloseAction}
+          />
 
           <Box py={6} px={6} bg="white">
             <form id="train-schedule-form" onSubmit={handleSubmit(onSubmit)}>
               <Flex direction="column" gap={6}>
-                <Flex gap={6} direction={['column', 'column', 'row']}>
+                <Flex gap={6} direction={["column", "column", "row"]}>
                   <FormInputField
                     name="number"
                     label="Train Number"
@@ -150,10 +175,13 @@ export default function TrainScheduleModal({
                     errors={errors}
                     placeholder="Enter train number"
                     required
+                    maxLength={10}
                   />
 
                   <FormControl isInvalid={!!errors.carrier} flex="1">
-                    <FormLabel fontWeight="medium" textAlign="center">Carrier</FormLabel>
+                    <FormLabel fontWeight="medium" textAlign="center">
+                      Carrier
+                    </FormLabel>
                     <Box
                       borderRadius="md"
                       overflow="hidden"
@@ -175,21 +203,21 @@ export default function TrainScheduleModal({
                         size="lg"
                         bg="gray.100"
                         border="none"
-                        _hover={{cursor: "default"}}
-                        _focus={{outline: "none"}}
+                        _hover={{ cursor: "default" }}
+                        _focus={{ outline: "none" }}
                         height="100%"
                         width="100%"
                       />
                       <input
                         type="hidden"
-                        {...register('carrier')}
+                        {...register("carrier")}
                         value={CARRIER}
                       />
                     </Box>
                   </FormControl>
                 </Flex>
 
-                <Flex gap={6} direction={['column', 'column', 'row']}>
+                <Flex gap={6} direction={["column", "column", "row"]}>
                   <CitySelectField
                     name="departure"
                     label="From"
@@ -209,7 +237,7 @@ export default function TrainScheduleModal({
                   />
                 </Flex>
 
-                <Flex gap={6} direction={['column', 'column', 'row']}>
+                <Flex gap={6} direction={["column", "column", "row"]}>
                   <DateTimeField
                     name="departureTime"
                     label="Departure Time"
@@ -227,13 +255,12 @@ export default function TrainScheduleModal({
               </Flex>
             </form>
           </Box>
-          
-          <ModalFooter
-            onClose={onCloseAction} 
-            mode={mode} 
-          />
+
+          <ModalFooter onClose={onCloseAction} mode={mode} />
         </Box>
       </Box>
     </Portal>
   );
-}
+};
+
+export default TrainScheduleModal;

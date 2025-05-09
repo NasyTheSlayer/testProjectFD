@@ -1,12 +1,7 @@
-import { 
-  Input, 
-  Button, 
-  Flex,
-  Box
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { FaPlus } from 'react-icons/fa';
-import { gradientButtonStyle } from '@/styles/tables/buttonStyles';
+import { Input, Button, Flex, Box } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { FaPlus } from "react-icons/fa";
+import { gradientButtonStyle } from "@/styles/tables/buttonStyles";
 
 const MotionBox = motion(Box);
 
@@ -19,19 +14,19 @@ interface SearchBarProps {
   handleAdd: () => void;
 }
 
-export default function SearchBar({
+const SearchBar = ({
   searchTerm,
   setSearchTerm,
   sortBy,
   resetSort,
   isAuthenticated,
-  handleAdd
-}: SearchBarProps) {
+  handleAdd,
+}: SearchBarProps) => {
   return (
     <MotionBox
-      initial={{y: -50, opacity: 0}}
-      animate={{y: 0, opacity: 1}}
-      transition={{duration: 0.5}}
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
       bg="white"
       p={6}
       borderRadius="lg"
@@ -62,11 +57,13 @@ export default function SearchBar({
             boxShadow="0px 4px 10px rgba(0, 0, 0, 0.1)"
             borderRadius="md"
           >
-            <FaPlus style={{marginRight: '8px'}}/>
+            <FaPlus style={{ marginRight: "8px" }} />
             Add New Schedule
           </Button>
         )}
       </Flex>
     </MotionBox>
   );
-} 
+};
+
+export default SearchBar;

@@ -7,6 +7,9 @@
 ![Chakra UI](https://img.shields.io/badge/Chakra_UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=white)
 ![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 </div>
 
@@ -53,6 +56,24 @@
       </ul>
     </td>
   </tr>
+  <tr>
+    <td width="50%">
+      <h3>⚙️ Якість коду</h3>
+      <ul>
+        <li>Строга типізація TypeScript</li>
+        <li>Налаштований ESLint та Prettier</li>
+        <li>Оптимізований Fast Refresh</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h3>🔄 CI/CD</h3>
+      <ul>
+        <li>Автоматизоване тестування</li>
+        <li>Перевірка якості коду</li>
+        <li>Автоматичний деплой</li>
+      </ul>
+    </td>
+  </tr>
 </table>
 
 ## 🧩 Технології
@@ -72,6 +93,18 @@
 
 </details>
 
+<details>
+<summary><b>Інструменти розробки</b></summary>
+
+- **ESLint** - Статичний аналіз коду
+- **Prettier** - Форматування коду
+- **TypeScript** - Строга типізація
+- **GitHub Actions** - CI/CD автоматизація
+- **Husky** - Git hooks для контролю якості коду(не встиг додати)
+- **lint-staged** - Перевірка змін перед комітом(не встиг додати)
+
+</details>
+
 ## 🏗️ Архітектура проекту
 
 ```
@@ -84,29 +117,69 @@ src/
 │   └── 🔌 providers/          # Контекст-провайдери
 │
 ├── 📦 components/             # UI компоненти
-│   ├── 🧰 ui/                 # Базові елементи
+│   ├── 🧰 feedback/           # Компоненти відгуку
 │   │   ├── LoadingAnimation.tsx
 │   │   └── ErrorDisplay.tsx
+│   ├── 🔍 search/             # Компоненти пошуку
+│   │   ├── Pagination.tsx
+│   │   ├── SearchBar.tsx
+│   │   └── SearchForm.tsx
+│   │
 │   ├── 🚂 trains/             # Компоненти поїздів
-│   │   ├── TrainScheduleTable.tsx
-│   │   └── BackgroundTrains/
-│   └── 📝 TrainScheduleModal.tsx
+│   │   ├── BackgroundTrains/  # Анімація фону
+│   │   │   └── BackgroundTrains.tsx
+│   │   │
+│   │   ├── TrainCheduleTable/ # Таблиця розкладу (альтернативна)
+│   │   │   ├── components/    # Підкомпоненти таблиці
+│   │   │   │   ├── RowRenderer.tsx
+│   │   │   │   ├── TableHeader.tsx
+│   │   │   │   ├── TableRow.tsx
+│   │   │   │   └── SortIcon.tsx
+│   │   │   ├── constants/     # Константи для таблиці
+│   │   │   └── TrainScheduleTable.tsx
+│   │   │
+│   │   ├── TrainSheduleTable/ # Основна таблиця розкладу
+│   │   │   ├── components/    # Підкомпоненти таблиці
+│   │   │   ├── constants/     # Константи та конфігурація
+│   │   │   └── interfaces/    # Типи компонентів
+│   │   │
+│   │   ├── TrainSheduleModal/ # Модальне вікно поїзда
+│   │   │   ├── components/    # Підкомпоненти модального вікна
+│   │   │   ├── constants/     # Константи модального вікна
+│   │   │   └── TrainScheduleModal.tsx
+│   │   │
+│   │   ├── TrainTable/        # Компонент таблиці
+│   │   │
+│   │   └── TrainTrack/        # Компонент треку поїзда
+│   │       └── TrainTrack.tsx
+│   │
+│   └── NavBar.tsx             # Компонент навігації
 │
 ├── 🌐 contexts/               # React контексти
-│   └── AuthContext.tsx        # Стан автентифікації
+│   └── auth/                  # Контексти авторизації
+│       ├── AuthContext.ts     # Контекст авторизації
+│       ├── AuthProvider.tsx   # Провайдер авторизації
+│       └── useAuth.ts         # Хук авторизації
 │
 ├── 🪝 hooks/                  # Кастомні React хуки
 │   └── useTrainSearch.ts      # Логіка пошуку і сортування
 │
-├── 🛠️ lib/                    # Утиліти та хелпери
+├── 🛠️ libs/                   # Утиліти та хелпери
 │   ├── api.ts                 # API функції
-│   └── axios.ts               # Конфігурація Axios
+│   ├── axios.ts               # Конфігурація Axios
+│   └── validation/            # Схеми валідації
+│       ├── authSchema.ts      # Схема для авторизації
+│       └── trainSheduleSchema.ts # Схема для розкладу
 │
 ├── 🎭 styles/                 # Стилі та теми
-│   └── buttonStyles.ts        # Стилі кнопок
+│   ├── auth/                  # Стилі для авторизації
+│   │   └── inputStyles.ts
+│   └── tables/                # Стилі для таблиць
+│       └── buttonStyles.ts
 │
 └── 📋 types/                  # TypeScript типи
-    └── train.ts               # Інтерфейси даних поїздів
+    ├── train.ts               # Інтерфейси даних поїздів
+    └── api.ts                 # Типи API відповідей
 ```
 
 ## 🚀 Особливості реалізації
@@ -137,10 +210,19 @@ const trainScheduleSchema = z.object({
 - Ефективне управління станом з використанням хуків та контекстів
 - Розділення коду і ліниве завантаження для швидшого старту
 
+### Якість коду та інструменти розробки
+
+- **ESLint** з розширеними правилами для TypeScript та React
+- **Prettier** для уніфікованого форматування коду
+- **CI/CD pipeline** на базі GitHub Actions:
+  - Автоматична збірка та тестування
+  - Перевірка коду за допомогою лінтерів
+  - Автоматичний деплой на хостинг
+
 ### Адаптивний дизайн
 
-- Повністю адаптивний інтерфейс з використанням Chakra UI
-- Мобільна навігація та оптимізовані під дотик елементи
+- Частково адаптивний інтерфейс з використанням Chakra UI
+- Частково додана мобільна навігація та оптимізовані під дотик елементи
 - Оптимізовані зображення та анімації
 
 ### Анімації та переходи
@@ -172,9 +254,3 @@ const trainScheduleSchema = z.object({
    ```
 
 4. Відкрити [http://localhost:3000](http://localhost:3000) у браузері
-
-## 📱 Скріншоти
-
-<div align="center">
-<i>Скріншоти будуть додані найближчим часом</i>
-</div>

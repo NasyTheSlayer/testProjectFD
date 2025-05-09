@@ -1,38 +1,45 @@
-'use client';
-import {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Box, Button, Input, Heading, Flex, Stack} from '@chakra-ui/react';
-import {FormControl, FormLabel, FormErrorMessage} from '@chakra-ui/form-control';
-import {AnimatePresence, motion} from 'framer-motion';
-import {useRouter} from 'next/navigation';
-import {useAuth} from '@/contexts/AuthContext';
-import {gradientButtonStyle, ghostButtonStyle} from '@/styles/tables/buttonStyles';
-import {authSchema, type AuthFormData} from '@/libs/validation';
-import { inputStyles } from '@/styles/auth/inputStyles';
+"use client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Input, Heading, Flex, Stack } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/form-control";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth/useAuth";
+import {
+  gradientButtonStyle,
+  ghostButtonStyle,
+} from "@/styles/tables/buttonStyles";
+import { authSchema, type AuthFormData } from "@/libs/validation";
+import { inputStyles } from "@/styles/auth/inputStyles";
 
 const MotionBox = motion(Box);
 const MotionForm = motion.form;
 
-export default function AuthPage() {
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+const AuthPage = () => {
+  const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const {login, register: registerUser} = useAuth();
-  const isLogin = authMode === 'login';
+  const { login, register: registerUser } = useAuth();
+  const isLogin = authMode === "login";
 
   const {
     register,
     handleSubmit,
-    formState: {errors},
-    reset
+    formState: { errors },
+    reset,
   } = useForm<AuthFormData>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: ''
-    }
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = async (data: AuthFormData) => {
@@ -40,9 +47,9 @@ export default function AuthPage() {
     try {
       const authFn = isLogin ? login : registerUser;
       const success = await authFn(data.email, data.password);
-      if (success) router.push('/');
+      if (success) router.push("/");
     } catch (error) {
-      console.error('Authentication error:', error);
+      console.error("Authentication error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -51,55 +58,55 @@ export default function AuthPage() {
   return (
     <Box
       minH="100vh"
-      style={{background: 'linear-gradient(to right, #3182ce, #805ad5)'}}
+      style={{ background: "linear-gradient(to right, #3182ce, #805ad5)" }}
       display="flex"
       alignItems="center"
       justifyContent="center"
     >
       <MotionBox
-        initial={{opacity: 0, y: -50}}
-        animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.5}}
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         bg="rgba(255, 255, 255, 0.2)"
-        style={{backdropFilter: 'blur(10px)'}}
+        style={{ backdropFilter: "blur(10px)" }}
         p={8}
         borderRadius="md"
         boxShadow="lg"
-        width={{base: '90%', md: '400px'}}
-        mt={{base: 0, md: -40}}
+        width={{ base: "90%", md: "400px" }}
+        mt={{ base: 0, md: -40 }}
       >
         <Heading as="h2" size="lg" color="white" textAlign="center" mb={4}>
-          {isLogin ? 'Login' : 'Registration'}
+          {isLogin ? "Login" : "Registration"}
         </Heading>
         <Flex justify="center" mb={4}>
-          {['login', 'register'].map((mode) => (
+          {["login", "register"].map((mode) => (
             <Button
               key={mode}
               onClick={() => {
-                setAuthMode(mode as 'login' | 'register');
+                setAuthMode(mode as "login" | "register");
                 reset();
               }}
-              mr={mode === 'login' ? 2 : 0}
+              mr={mode === "login" ? 2 : 0}
               {...(mode === authMode ? gradientButtonStyle : ghostButtonStyle)}
             >
-              {mode === 'login' ? 'Login' : 'Register'}
+              {mode === "login" ? "Login" : "Register"}
             </Button>
           ))}
         </Flex>
         <AnimatePresence mode="wait">
           <MotionForm
             key={authMode}
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
-            transition={{duration: 0.3}}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Stack gap={4}>
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel color="white">Email</FormLabel>
                 <Input
-                  {...register('email')}
+                  {...register("email")}
                   placeholder="Enter your email"
                   {...inputStyles}
                 />
@@ -109,7 +116,7 @@ export default function AuthPage() {
                 <FormLabel color="white">Password</FormLabel>
                 <Input
                   type="password"
-                  {...register('password')}
+                  {...register("password")}
                   placeholder="Enter your password"
                   {...inputStyles}
                 />
@@ -120,11 +127,13 @@ export default function AuthPage() {
                   <FormLabel color="white">Confirm Password</FormLabel>
                   <Input
                     type="password"
-                    {...register('confirmPassword')}
+                    {...register("confirmPassword")}
                     placeholder="Confirm your password"
                     {...inputStyles}
                   />
-                  <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.confirmPassword?.message}
+                  </FormErrorMessage>
                 </FormControl>
               )}
               <Button
@@ -136,10 +145,10 @@ export default function AuthPage() {
                 _disabled={{
                   opacity: 0.6,
                   cursor: "not-allowed",
-                  _hover: {transform: "none"}
+                  _hover: { transform: "none" },
                 }}
               >
-                {isLogin ? 'Login' : 'Register'}
+                {isLogin ? "Login" : "Register"}
               </Button>
             </Stack>
           </MotionForm>
@@ -147,4 +156,6 @@ export default function AuthPage() {
       </MotionBox>
     </Box>
   );
-}
+};
+
+export default AuthPage;

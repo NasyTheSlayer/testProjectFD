@@ -1,40 +1,51 @@
-'use client';
+"use client";
 
-import {Box, Flex, Spacer, Button} from '@chakra-ui/react';
-import Link from 'next/link';
-import {motion} from 'framer-motion';
-import {FaTrain} from 'react-icons/fa';
-import {useAuth} from '../contexts/AuthContext';
-import {ReactNode, useEffect} from 'react';
-import {ghostButtonStyle} from '../styles/tables/buttonStyles';
+import { Box, Flex, Spacer, Button } from "@chakra-ui/react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { FaTrain } from "react-icons/fa";
+import { ReactNode, useEffect } from "react";
+import { ghostButtonStyle } from "../styles/tables/buttonStyles";
+import { useAuth } from "../contexts/auth/useAuth";
 
 const MotionBox = motion(Box);
 
-const AnimatedLink = ({href, children, index}: { href: string; children: ReactNode; index: number }) => {
+const AnimatedLink = ({
+  href,
+  children,
+  index,
+}: {
+  href: string;
+  children: ReactNode;
+  index: number;
+}) => {
   return (
     <MotionBox
-      initial={{opacity: 0, x: 20}}
-      animate={{opacity: 1, x: 0}}
-      transition={{delay: index * 0.2, duration: 0.5}}
-      whileHover={{scale: 1.05}}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.2, duration: 0.5 }}
+      whileHover={{ scale: 1.05 }}
       ml={4}
     >
-      <Link href={href} style={{
-        color: 'white',
-        fontSize: '18px',
-        fontWeight: 400,
-        textDecoration: 'none',
-        padding: '8px 16px',
-        display: 'inline-block'
-      }}>
+      <Link
+        href={href}
+        style={{
+          color: "white",
+          fontSize: "18px",
+          fontWeight: 400,
+          textDecoration: "none",
+          padding: "8px 16px",
+          display: "inline-block",
+        }}
+      >
         {children}
       </Link>
     </MotionBox>
   );
 };
 
-export default function NavBar() {
-  const {isAuthenticated, logout, refreshAuthState} = useAuth();
+const NavBar = () => {
+  const { isAuthenticated, logout, refreshAuthState } = useAuth();
 
   useEffect(() => {
     refreshAuthState();
@@ -46,21 +57,21 @@ export default function NavBar() {
       p={4}
       bg="rgba(255, 255, 255, 0.1)"
       style={{
-        backdropFilter: 'blur(10px)',
-        background: 'linear-gradient(to right, #3182ce, #805ad5)'
+        backdropFilter: "blur(10px)",
+        background: "linear-gradient(to right, #3182ce, #805ad5)",
       }}
       position="sticky"
       top={0}
       zIndex={10}
     >
       <motion.div
-        initial={{scale: 0}}
-        animate={{scale: 1}}
-        transition={{type: 'spring', stiffness: 260, damping: 20}}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        <FaTrain size={32} color="white"/>
+        <FaTrain size={32} color="white" />
       </motion.div>
-      <Spacer/>
+      <Spacer />
       <AnimatedLink href="/" index={0}>
         Home
       </AnimatedLink>
@@ -69,9 +80,9 @@ export default function NavBar() {
       </AnimatedLink>
       {isAuthenticated ? (
         <MotionBox
-          initial={{opacity: 0, x: 20}}
-          animate={{opacity: 1, x: 0}}
-          transition={{delay: 0.4, duration: 0.5}}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
           ml={4}
         >
           <Button
@@ -93,4 +104,6 @@ export default function NavBar() {
       )}
     </Flex>
   );
-}
+};
+
+export default NavBar;

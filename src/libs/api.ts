@@ -1,7 +1,9 @@
-import api from './axios';
-import {Train, TrainsScheduleData} from '../types/train';
+import api from "./axios";
+import { TrainsScheduleData } from "../types/train";
 
-export async function fetchTrains(page: number = 1): Promise<TrainsScheduleData> {
+export async function fetchTrains(
+  page: number = 1,
+): Promise<TrainsScheduleData> {
   const res = await api.get(`/trains/?page=${page}`);
   return res.data;
 }

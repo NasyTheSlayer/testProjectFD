@@ -1,4 +1,4 @@
-import { Train } from '@/types/train';
+import { Train } from "@/types/train";
 
 export interface RowProps {
   index: number;
@@ -7,4 +7,4 @@ export interface RowProps {
   onEdit: (train: Train) => void;
   onDelete: (id: string) => void;
   isAuthenticated: boolean;
-} 
+}

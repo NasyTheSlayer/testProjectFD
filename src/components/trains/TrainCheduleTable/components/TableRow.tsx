@@ -1,8 +1,11 @@
-import React from 'react';
-import { Box, Flex, Button } from '@chakra-ui/react';
-import { Train } from '@/types/train';
-import { columns } from '../constants/constants';
-import { deleteButtonStyle, gradientButtonStyle } from '@/styles/tables/buttonStyles';
+import React from "react";
+import { Box, Flex, Button } from "@chakra-ui/react";
+import { Train } from "@/types/train";
+import { columns } from "../constants/constants";
+import {
+  deleteButtonStyle,
+  gradientButtonStyle,
+} from "@/styles/tables/buttonStyles";
 
 interface TableRowProps {
   index: number;
@@ -13,12 +16,18 @@ interface TableRowProps {
   onDelete: (id: string) => void;
 }
 
-const TableRow = ({ index, style, train, isAuthenticated, onEdit, onDelete }: TableRowProps) => {
+const TableRow = ({
+  style,
+  train,
+  isAuthenticated,
+  onEdit,
+  onDelete,
+}: TableRowProps) => {
   return (
     <Box
       as="tr"
       key={train.id}
-      _hover={{ bg: 'gray.50' }}
+      _hover={{ bg: "gray.50" }}
       borderBottom="1px"
       borderColor="gray.200"
       style={style}
@@ -26,17 +35,17 @@ const TableRow = ({ index, style, train, isAuthenticated, onEdit, onDelete }: Ta
       width="100%"
     >
       {columns.map(({ key, flexBasis, formatter, fontWeight }) => (
-        <Box 
-          as="td" 
-          key={key} 
-          p={4} 
+        <Box
+          as="td"
+          key={key}
+          p={4}
           flexBasis={flexBasis}
           fontWeight={fontWeight}
         >
           {formatter ? formatter(train[key]) : train[key]}
         </Box>
       ))}
-      
+
       {isAuthenticated && (
         <Box as="td" p={4} flexBasis="15%">
           <Flex gap={2}>
@@ -63,4 +72,4 @@ const TableRow = ({ index, style, train, isAuthenticated, onEdit, onDelete }: Ta
   );
 };
 
-export default TableRow; 
+export default TableRow;
