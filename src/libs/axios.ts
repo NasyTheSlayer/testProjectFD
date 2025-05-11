@@ -6,7 +6,6 @@ interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
-// Інтерфейс для елементів черги запитів
 interface QueueItem {
   resolve: (value: unknown) => void;
   reject: (reason?: unknown) => void;
