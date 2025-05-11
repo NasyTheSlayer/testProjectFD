@@ -13,7 +13,7 @@ interface QueueItem {
 }
 
 const api = axios.create({
-  baseURL: "https://trains-shedule-test-task-backend.onrender.com",
+  baseURL: "https://api.trainshedulettt.click/",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
